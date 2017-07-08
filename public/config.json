@@ -1,0 +1,42 @@
+{
+  "datasets" : [
+    {
+      "dsname" : "calendar",
+      "default_filters" : {
+        "_date": [
+          "2015-12-31T23:00:00.000Z",
+          "2017-11-30T23:00:00.000Z",
+          true
+        ]
+      },
+      "url": "/test_dataset.csv",
+      "dimensions": [
+        "event_type",
+        "game_date",
+        "tableName",
+        "gameType",
+        "starting_time"
+      ],
+      "measures": [
+        "occurs"
+      ],
+      "order": {
+        "Month": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ]
+      }
+    }
+
+  ]
+}
