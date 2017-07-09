@@ -15,7 +15,8 @@
         "game_date",
         "tableName",
         "gameType",
-        "starting_time"
+        "starting_time",
+        "ending_time"
       ],
       "measures": [
         "occurs"

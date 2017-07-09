@@ -53,6 +53,7 @@ class Overview2 extends Component {
             dimension : null,
             value1    : { measure: null, group: null, options: [], filter: null },
             value2    : { measure: null, group: null, options: [], filter: null },
+            game_date: null
         }
     }
 
@@ -65,8 +66,12 @@ class Overview2 extends Component {
         this.allGroup.dispose()
     }
 
+
+
     componentWillReceiveProps(props) {
-        const { data, params, location } = props
+        const { data, params, location, game_date} = props
+
+
 
         const dimension = (params.dimension) ? params.dimension : defaultDimension
 
@@ -104,8 +109,18 @@ class Overview2 extends Component {
                 : this.state.value2.options
             : []
 
+
+         this.dateOptions= getOptions(data.dimensions[defaultDimension]);
+
+        var gd;
+       if(!game_date) {
+            gd = this.dateOptions[0];
+        }
+        else {gd = game_date}
+
         this.setState({
             ...this.state,
+            game_date: gd,
             value1,
             value2
         }
@@ -121,29 +136,27 @@ class Overview2 extends Component {
     onValue2GroupChange   = (e, i, v) => this.update({ ...this.state, value2: { ...this.state.value2, group:   v } })
     onValue2FilterChange  = (e, i, v) => this.update({ ...this.state, value2: { ...this.state.value2, filter:  v } })
 
-    update = (items) => {
+    update = (day) => {
         const { location, router } = this.props
-        const { dimension, value1, value2 } = items
+        console.log("updating with game date========")
+        console.log(day)
 
-   //     if (dimension) {
-            router.push({
-                pathname: '/overview/',
-                query: {
-                    ...location.query,
-                    value1: JSON.stringify({
-                        measure: value1.measure,
-                        group  : value1.group,
-                        filter : value1.filter
-                    }),
-                    value2: JSON.stringify({
-                        measure: value2.measure,
-                        group  : value2.group,
-                        filter : value2.filter
-                    })
 
-                }
-            })
-        //}
+/*
+           router.push({
+               pathname : "/overview",
+                ...this.props,
+                game_date: day
+            })*/
+
+
+        this.setState({
+            ...this.state,
+            game_date: day,
+        });
+
+       // this.render();
+
     }
 
     onClickHandler = (e, i, v) => {
@@ -170,12 +183,35 @@ class Overview2 extends Component {
         filterHandler(dimension, filters[dimension])
     }
 
+
+    onGameDayChange = (e,i,v) => {
+        console.log(" onGameDayChange fired ")
+        if (v === this.state.game_date) {
+            console.log(" Day SAME from " + this.state.game_date + " to " + v)
+
+        }
+        else {
+            console.log(e)
+            console.log(i)
+            console.log(v)
+            console.log(" Day changed from " + this.state.game_date + " to " + v)
+            this.update(v)
+        }
+
+
+
+    }
+
+
     render() {
         const { data, params, filter } = this.props
-        const { dimension, value1, value2 } = this.state
+        const { dimension, value1, value2, game_date } = this.state
 
 
 
+        console.log(" ********************* rendering *****************")
+        console.log(this.state)
+        console.log(this.props)
 
         return (
 
@@ -183,9 +219,11 @@ class Overview2 extends Component {
         <div className={"comparison"}>
             <Toolbar className="toolbar">
                 <ToolbarGroup >
-
-                </ToolbarGroup>
-                <ToolbarGroup >
+                 <Select
+                        value={game_date}
+                        label={"game date"}
+                        handler={this.onGameDayChange}
+                        options={this.dateOptions} />
 
                 </ToolbarGroup>
             </Toolbar>
@@ -193,6 +231,7 @@ class Overview2 extends Component {
 
             <Timeline
              data={this.props.data}
+             game_date={game_date}
             />
 
 
@@ -203,6 +242,7 @@ class Overview2 extends Component {
 }
 
 Overview2.propTypes = {
+    game_date:  PropTypes.string,
     data : PropTypes.shape({
         dimensions: PropTypes.object.isRequired,
         measures  : PropTypes.array.isRequired

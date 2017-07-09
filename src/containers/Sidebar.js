@@ -224,8 +224,6 @@ hideCalendarDate={true}
                     .filter(f => f.substring(0,1) !== '_')
                     .map(k => filters[k][0].map((filter, i) => (
                         <Chip style={{ margin: 2}} key={i} onRequestDelete={this.onRemoveFilter(k, filter)}>  {
-                            !(filter === 'WAL-MART') ?
-                            filter.substring(filter.lastIndexOf("-") + 1) :
                                 filter
                         }   </Chip>
                     )))

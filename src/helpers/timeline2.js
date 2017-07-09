@@ -161,11 +161,21 @@ export function timeline()  {
                 .on("click", function (d, i) { click(d, index, datum); });
         };
 
+        var labelsParent;
         function timeline (gParent) {
+
+            if (!labelsParent) {
+                labelsParent =  d3.select("#labels").append("svg").attr("width", 100).attr("height", 700).append("g")
+            }
             var g = gParent.append("g");
             var gParentSize = gParent[0][0].getBoundingClientRect();
 
             var gParentItem = d3.select(gParent[0][0]);
+
+            //console.log("==================== gParent")
+            //console.log(gParent);
+            //console.log(gParentItem)
+
 
             var yAxisMapping = {},
                 maxStack = 1,
@@ -173,6 +183,7 @@ export function timeline()  {
                 maxTime = 0;
 
             setWidth();
+
 
             // check if the user wants relative time
             // if so, substract the first timestamp from each subsequent timestamps
@@ -221,11 +232,16 @@ export function timeline()  {
                     ending = maxTime;
                 }
                 if (beginning === 0) {
-                    beginning = minTime;
+                    beginning = minTime ;
                 }
             }
 
             var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
+
+
+           // console.log(" time ===")
+           // console.log(beginning)
+            //console.log(ending)
 
             // draw the axis
             var xScale = d3.time.scale()
@@ -237,6 +253,9 @@ export function timeline()  {
                 .orient(orient)
                 .tickFormat(tickFormat.format)
                 .tickSize(tickFormat.tickSize);
+
+
+
 
             if (tickFormat.tickValues != null) {
                 xAxis.tickValues(tickFormat.tickValues);
@@ -354,7 +373,7 @@ export function timeline()  {
                     }
 
                     // add the label
-                    if (hasLabel) { appendLabel(gParent, yAxisMapping, index, hasLabel, datum); }
+                    if (hasLabel) { appendLabel(labelsParent, yAxisMapping, index, hasLabel, datum); }
 
                     if (typeof(datum.icon) !== "undefined") {
                         gParent.append("image")

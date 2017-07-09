@@ -20,7 +20,7 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={Overview2}/>
                 <Route path="dsname(/:dsname)" component={App}  />
-                <Route path="overview(/:measure)(/:aggregation)"   component={Overview2}/>
+                <Route path="overview(/:measure)(/:game_date)"   component={Overview2}/>
                 <Route path="comparison(/:dimension)" component={Comparison}/>
                 <Route path="export" component={Export}/>
             </Route>
