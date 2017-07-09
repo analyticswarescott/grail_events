@@ -125,7 +125,10 @@ class Timeline extends React.Component {
 
 		//var zz = data.dimensions['starting_time'].filterRange([1499310404000, 1499408881000]);
 
-		var tables = data.dimensions['tableName'].group().top(Infinity);
+		var tables = data.dimensions['tableName'].group().top(Infinity)
+
+
+
 		//get the raw data (filtered)
 		//console.log(data.dimensions['tableName'].top(Infinity))
 		//console.log(tables);
@@ -209,14 +212,25 @@ class Timeline extends React.Component {
 
 
         var clickLock;
+
+
 		chart.hover (function (d, index, datum) {
-            d3.select("#hover").html( getText(d))
-		}).click(function (d, index, datum) {
-            d3.select("#details").html( getText(d) )
-        })
+           // d3.select("#hover").
+            //console.log(d) TODO -- this can sometimes not work in Chrome when 3000 has been running in the same browser
+            setHTML("#hover",  getText(d))
+		}
+        );
+
+
+		chart.click(function (d, index, datum) {
+            //d3.select("#details")
+            setHTML( "#details",  getText(d) )
+        });
 
 
 		function getText(d) {
+
+		    //console.log(d)
            var ret =  d.info + " <br> Start Time: " + new Date(d.starting_time/1).toLocaleString() + " <br> End " +
             "Time: "  + new Date(d.ending_time/1).toLocaleString()
 
@@ -224,11 +238,22 @@ class Timeline extends React.Component {
 		}
 
 
-     /*   var display = d3.select("#details").append("text").attr("width", 500).attr("height", 100)
-			.attr("id", "details")
-            .attr("y", 1210)*/
+		function setHTML(divID, html) {
+            var elements = document.querySelectorAll(divID);
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].innerHTML = html
+            }
+        }
 
 
+
+       /* function replaceHtml(source, destination) {
+            while (destination.firstChild) {
+                destination.removeChild(destination.firstChild);
+            }
+            copyHtml(source, destination);
+        }
+*/
 
 
 
