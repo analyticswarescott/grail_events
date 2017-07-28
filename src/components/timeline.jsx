@@ -277,7 +277,7 @@ class Timeline extends React.Component {
 
 			<div id="hover" class="hover"
 
-							style={ {top: 760,
+							style={ {top: 800,
                                 left: 260,
                                 position: 'absolute',
                                 backgroundColor: '#fffff',
@@ -287,7 +287,7 @@ class Timeline extends React.Component {
 
 			<div id="details" class="details"
 
-				 style={ {top: 760,
+				 style={ {top: 800,
                      left: 760,
                      position: 'absolute',
                      backgroundColor: '#fffff',
